@@ -135,6 +135,6 @@ File [0;32m/usr/local/python/3.12.1/lib/python3.12/site-packages/psycopg2/__ini
 [1;32m    124[0m     conn[38;5;241m.[39mcursor_factory [38;5;241m=[39m cursor_factory
 
 [0;31mOperationalError[0m: FATAL:  password authentication failed for user "avnadmin"
-FATAL:  no pg_hba.conf entry for host "23.97.62.133", user "avnadmin", database "defaultdb", no encryption
+FATAL:  no pg_hba.conf entry for host "23.97.62.134", user "avnadmin", database "defaultdb", no encryption
 
 
