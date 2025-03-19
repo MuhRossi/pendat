@@ -499,16 +499,16 @@ document.write(`
 <li><p>Tentukan k-Tetangga Terdekat</p></li>
 </ol>
 <p>Untuk setiap titik, kita urutkan jarak ke titik lain dan pilih 3 tetangga terdekat (k=3).
-Misalnya, untuk titik ID 1 (2.1, 3.4), tetangga terdekat adalah ID 2, ID 3, dan ID 7 berdasarkan jarak terkecil.</p>
+Misalnya, untuk titik ID 1 (2.1, 3.4), tetangga terdekat adalah ID 2, ID 3, dan ID 9 berdasarkan jarak terkecil.</p>
 <ol class="arabic simple" start="4">
 <li><p>Hitung k-Distance</p></li>
 </ol>
 <p>k-Distance adalah jarak ke tetangga ke-k (tetangga ke-3).
 Misalnya, jika titik ID 1 memiliki tetangga ke-1, ke-2, dan ke-3 dengan jarak:</p>
 <p><span class="math notranslate nohighlight">\(
-\text [0.42,0.64,2.85]
+\text [0.424,0.566,2.663]
 \)</span></p>
-<p>Maka, k-Distance ID 1 = 2.85 (jarak ke tetangga ke-3).</p>
+<p>Maka, k-Distance ID 1 = 2.663 (jarak ke tetangga ke-3).</p>
 <ol class="arabic simple" start="5">
 <li><p>Hitung Reachability Distance</p></li>
 </ol>
@@ -517,10 +517,10 @@ Misalnya, jika titik ID 1 memiliki tetangga ke-1, ke-2, dan ke-3 dengan jarak:</
   \text RD(A,B) = max(k-Distance(B),D(A,B))
   \)</span></p>
 <p>Misalnya untuk ID 1 dan ID 2:</p>
-<p>k-Distance ID 2 = 2.85</p>
-<p>Jarak ID 1 ke ID 2 = 0.42</p>
+<p>k-Distance ID 2 = 3.081</p>
+<p>Jarak ID 1 ke ID 2 = 0.424</p>
 <p><span class="math notranslate nohighlight">\(
-  \text RD(1,2) = max(2.85, 0.42) = 2.85
+  \text RD(1,2) = max(3.081, 0.424) = 3.081
   \)</span></p>
 <p>Kita lakukan ini untuk semua tetangga.</p>
 <ol class="arabic simple" start="6">
@@ -531,11 +531,11 @@ Misalnya, jika titik ID 1 memiliki tetangga ke-1, ke-2, dan ke-3 dengan jarak:</
 \text {LRD}(A) = \frac {1}{ {\frac {1}{k}} ∑ RD(A,B)}
 \)</span></p>
 <p>Misalnya untuk ID 1:</p>
-<p>RD(1,2) = 2.85</p>
-<p>RD(1,3)=2.85</p>
-<p>RD(1,7)=2.90</p>
+<p>RD(1,2) = 3.081</p>
+<p>RD(1,3)=2.11</p>
+<p>RD(1,9)=2.663</p>
 <p><span class="math notranslate nohighlight">\(
-\text LRD(1) = \frac {1}{ (2.85 + 2.85 + 2.90) / 3} = \frac {1}{2.8667} ≈ 0.349
+\text LRD(1) = \frac {1}{ (3.081 + 2.11 + 2.663) / 3} = \frac {1}{2.618} ≈ 0.382
 \)</span></p>
 <ol class="arabic simple" start="7">
 <li><p>Hitung LOF Score</p></li>
@@ -546,12 +546,12 @@ Misalnya, jika titik ID 1 memiliki tetangga ke-1, ke-2, dan ke-3 dengan jarak:</
 \)</span></p>
 <p>Misalnya untuk ID 1:</p>
 <ul class="simple">
-<li><p>LRD(2)=0.308</p></li>
-<li><p>LRD(3)=0.400</p></li>
-<li><p>LRD(7)=0.295</p></li>
+<li><p>LRD(2)=0.134</p></li>
+<li><p>LRD(3)=0.357</p></li>
+<li><p>LRD(9)=0.134</p></li>
 </ul>
 <p><span class="math notranslate nohighlight">\(
-\text LOF(1)= \frac {(0.308+0.400+0.295)} {3 \times 0.349} = \frac {1.047}{1.003} ≈ 1.13
+\text LOF(1)= \frac {(0.134+0.357+0.134)} {3 \times 0.382} = \frac {0.867}{1.146} ≈ 0,757
 \)</span></p>
 <p>Interpretasi LOF:</p>
 <ul class="simple">
@@ -570,8 +570,8 @@ Misalnya, jika titik ID 1 memiliki tetangga ke-1, ke-2, dan ke-3 dengan jarak:</
 
 <span class="c1"># Dataset contoh dengan tambahan 5 data lagi</span>
 <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;Fitur 1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.1</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">,</span> <span class="mf">14.7</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">,</span> <span class="mf">12.3</span><span class="p">,</span> <span class="mf">4.3</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">],</span>
-    <span class="s1">&#39;Fitur 2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">3.4</span><span class="p">,</span> <span class="mf">3.1</span><span class="p">,</span> <span class="mf">3.8</span><span class="p">,</span> <span class="mf">8.2</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">17.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">20.3</span><span class="p">,</span> <span class="mf">4.9</span><span class="p">,</span> <span class="mf">10.2</span><span class="p">]</span>
+    <span class="s1">&#39;Fitur 1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.1</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">14.7</span><span class="p">,</span> <span class="mf">8.2</span><span class="p">,</span> <span class="mf">12.3</span><span class="p">,</span> <span class="mf">4.7</span><span class="p">,</span> <span class="mf">4.3</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">],</span>
+    <span class="s1">&#39;Fitur 2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">3.4</span><span class="p">,</span> <span class="mf">3.1</span><span class="p">,</span> <span class="mf">3.8</span><span class="p">,</span> <span class="mf">8.2</span><span class="p">,</span> <span class="mf">17.0</span><span class="p">,</span> <span class="mf">8.5</span><span class="p">,</span> <span class="mf">20.3</span><span class="p">,</span> <span class="mf">5.3</span><span class="p">,</span> <span class="mf">4.9</span><span class="p">,</span> <span class="mf">10.2</span><span class="p">]</span>
 <span class="p">}</span>
 
 <span class="c1"># Membuat DataFrame</span>
@@ -606,10 +606,10 @@ Misalnya, jika titik ID 1 memiliki tetangga ke-1, ke-2, dan ke-3 dengan jarak:</
 1      1.8      3.1          1
 2      2.5      3.8          1
 3      8.0      8.2          1
-4      7.5      8.0          1
-5     14.7     17.0         -1
-6      4.5      5.0          1
-7     12.3     20.3         -1
+4     14.7     17.0         -1
+5      8.2      8.5          1
+6     12.3     20.3         -1
+7      4.7      5.3          1
 8      4.3      4.9          1
 9     10.0     10.2          1
 
@@ -617,8 +617,8 @@ Jumlah outlier: 2
 
 Data Outlier:
    Fitur 1  Fitur 2  LOF Label
-5     14.7     17.0         -1
-7     12.3     20.3         -1
+4     14.7     17.0         -1
+6     12.3     20.3         -1
 </pre></div>
 </div>
 </div>
@@ -707,6 +707,39 @@ Data Outlier:
 <span class="c1"># Ambil data fitur numerik</span>
 <span class="n">feature_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;petal length&quot;</span><span class="p">,</span> <span class="s2">&quot;petal width&quot;</span><span class="p">,</span> <span class="s2">&quot;sepal length&quot;</span><span class="p">,</span> <span class="s2">&quot;sepal width&quot;</span><span class="p">]</span>
 <span class="n">data_values</span> <span class="o">=</span> <span class="n">df_merged</span><span class="p">[</span><span class="n">feature_columns</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">42</span>
+<span class="g g-Whitespace">     </span><span class="mi">39</span>     <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">41</span> <span class="c1"># Ambil data dari kedua database</span>
+<span class="ne">---&gt; </span><span class="mi">42</span> <span class="n">df_postgresql</span> <span class="o">=</span> <span class="n">get_pg_data</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">43</span> <span class="n">df_mysql</span> <span class="o">=</span> <span class="n">get_mysql_data</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">44</span> <span class="n">df_postgresql</span> <span class="o">=</span> <span class="n">df_postgresql</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Class&#39;</span><span class="p">:</span> <span class="s1">&#39;class&#39;</span><span class="p">})</span>
+
+<span class="nn">Cell In[3], line 10,</span> in <span class="ni">get_pg_data</span><span class="nt">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="k">def</span> <span class="nf">get_pg_data</span><span class="p">():</span>
+<span class="ne">---&gt; </span><span class="mi">10</span>     <span class="n">conn</span> <span class="o">=</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span>          <span class="n">host</span><span class="o">=</span><span class="s2">&quot;pg-23566fa8-poostgree.d.aivencloud.com&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span>         <span class="n">user</span><span class="o">=</span><span class="s2">&quot;avnadmin&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span>         <span class="n">password</span><span class="o">=</span><span class="s2">&quot;AVNS_PQHHNe5BmPwoXLKHHad&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span>         <span class="n">database</span><span class="o">=</span><span class="s2">&quot;defaultdb&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span>         <span class="n">port</span><span class="o">=</span><span class="mi">19790</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span>     <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span>     <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span>     <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;SELECT * FROM  &quot;rossi&quot;.&quot;postgree&quot;&#39;</span><span class="p">)</span>
+
+<span class="nn">File /usr/local/python/3.12.1/lib/python3.12/site-packages/psycopg2/__init__.py:122,</span> in <span class="ni">connect</span><span class="nt">(dsn, connection_factory, cursor_factory, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">119</span>     <span class="n">kwasync</span><span class="p">[</span><span class="s1">&#39;async_&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;async_&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">121</span> <span class="n">dsn</span> <span class="o">=</span> <span class="n">_ext</span><span class="o">.</span><span class="n">make_dsn</span><span class="p">(</span><span class="n">dsn</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">122</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">_connect</span><span class="p">(</span><span class="n">dsn</span><span class="p">,</span> <span class="n">connection_factory</span><span class="o">=</span><span class="n">connection_factory</span><span class="p">,</span> <span class="o">**</span><span class="n">kwasync</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">123</span> <span class="k">if</span> <span class="n">cursor_factory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">124</span>     <span class="n">conn</span><span class="o">.</span><span class="n">cursor_factory</span> <span class="o">=</span> <span class="n">cursor_factory</span>
+
+<span class="ne">OperationalError</span>: could not translate host name &quot;pg-23566fa8-poostgree.d.aivencloud.com&quot; to address: Name or service not known
 </pre></div>
 </div>
 </div>
