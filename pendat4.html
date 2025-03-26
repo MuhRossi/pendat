@@ -1,0 +1,1078 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Materi Klasifikasi Menggunakan Algoritma Naive Bayes &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'pendat4';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Materi Local Outlier Factor(LOF)" href="pendat3.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.jpg" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="_static/logo.jpg" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Penambangan Data
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="pendat1.html">Analisi Data Iris</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pendat2.html">Materi KNN</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="pendat3.html">Materi Local Outlier Factor(LOF)</a></li>
+
+
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Materi Klasifikasi Menggunakan Algoritma Naive Bayes</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fpendat4.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/pendat4.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Materi Klasifikasi Menggunakan Algoritma Naive Bayes</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kegunaan-naive-bayes">Kegunaan Naïve Bayes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kelebihan-naive-bayes">Kelebihan Naïve Bayes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kekurangan-naive-bayes">Kekurangan Naïve Bayes</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="materi-klasifikasi-menggunakan-algoritma-naive-bayes">
+<h1>Materi Klasifikasi Menggunakan Algoritma Naive Bayes<a class="headerlink" href="#materi-klasifikasi-menggunakan-algoritma-naive-bayes" title="Link to this heading">#</a></h1>
+<p>Naïve Bayes Classifier merupakan sebuah metoda klasifikasi yang berakar pada teorema Bayes . Metode pengklasifikasian dg menggunakan metode probabilitas dan statistik yg dikemukakan oleh ilmuwan Inggris Thomas Bayes , yaitu memprediksi peluang di masa depan berdasarkan pengalaman di masa sebelumnya sehingga dikenal sebagai Teorema Bayes . Ciri utama dr Naïve Bayes Classifier ini adalah asumsi yg sangat kuat (naïf) akan independensi dari masing-masing kondisi / kejadian.</p>
+<p>Menurut Olson Delen (2008) menjelaskan Naïve Bayes unt setiap kelas keputusan, menghitung probabilitas dg syarat bahwa kelas keputusan adalah benar, mengingat vektor informasi obyek. Algoritma ini mengasumsikan bahwa atribut obyek adalah independen. Probabilitas yang terlibat dalam memproduksi perkiraan akhir dihitung sebagai jumlah frekuensi dr ” master ” tabel keputusan.</p>
+<p>Naive Bayes Classifier bekerja sangat baik dibanding dengan model classifier lainnya. Hal ini dibuktikan oleh Xhemali , Hinde Stone dalam jurnalnya “Naïve Bayes vs. Decision Trees vs. Neural Networks in the Classification of Training Web Pages” mengatakan bahwa “Naïve Bayes Classifier memiliki tingkat akurasi yg lebih baik dibandingmodel classifier lainnya”.</p>
+<p>Keuntungan penggunan adalah bahwa metoda ini hanya membutuhkan jumlah data pelatihan ( training data ) yg kecil unt menentukan estimasi parameter yg diperlukan dalam proses pengklasifikasian. Karena yg diasumsikan sebagai variable independent, maka hanya varians dr suatu variable dalam sebuah kelas yg dibutuhkan unt menentukan klasifikasi, bukan keseluruhan dr matriks kovarians.</p>
+<section id="kegunaan-naive-bayes">
+<h2>Kegunaan Naïve Bayes<a class="headerlink" href="#kegunaan-naive-bayes" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Mengklasifikasikan dokumen teks seperti teks berita ataupun teks akademis</p></li>
+<li><p>Sebagai metode machine learning yang menggunakan probabilitas</p></li>
+<li><p>Untuk membuat diagnosis medis secara otomatis</p></li>
+<li><p>Mendeteksi atau menyaring spam</p></li>
+</ul>
+</section>
+<section id="kelebihan-naive-bayes">
+<h2>Kelebihan Naïve Bayes<a class="headerlink" href="#kelebihan-naive-bayes" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Bisa dipakai untuk data kuantitatif maupun kualitatif</p></li>
+<li><p>Tidak memerlukan jumlah data yang banyak</p></li>
+<li><p>Tidak perlu melakukan data training yang banyak</p></li>
+<li><p>Jika ada nilai yang hilang, maka bisa diabaikan dalam perhitungan.</p></li>
+<li><p>Perhitungannya cepat dan efisien</p></li>
+<li><p>Mudah dipahami</p></li>
+<li><p>Mudah dibuat</p></li>
+<li><p>Pengklasifikasian dokumen bisa dipersonalisasi, disesuaikan dengan kebutuhan setiap orang</p></li>
+<li><p>Jika digunakan dalaam bahasa pemrograman, code-nya sederhana</p></li>
+<li><p>Bisa digunakan untuk klasifikasi masalah biner ataupun multiclass</p></li>
+</ul>
+</section>
+<section id="kekurangan-naive-bayes">
+<h2>Kekurangan Naïve Bayes<a class="headerlink" href="#kekurangan-naive-bayes" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Apabila probabilitas kondisionalnya bernilai nol, maka probabilitas prediksi juga akan bernilai nol</p></li>
+<li><p>Asumsi bahwa masing-masing variabel independen membuat berkurangnya akurasi, karena biasanya ada korelasi antara variabel yang satu dengan variabel yang lain</p></li>
+<li><p>Keakuratannya tidak bisa diukur menggunakan satu probabilitas saja. Butuh bukti-bukti lain untuk membuktikannya.</p></li>
+<li><p>Untuk membuat keputusan, diperlukan pengetahuan awal atau pengetahuan mengenai masa sebelumnya. Keberhasilannya sangat bergantung pada pengetahuan awal tersebut Banyak celah yang bisa mengurangi efektivitasnya Dirancang untuk mendeteksi kata-kata saja, tidak bisa berupa gambar</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">pip</span> install pymysql
+<span class="o">%</span><span class="k">pip</span> install psycopg2
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: pymysql in /usr/local/python/3.12.1/lib/python3.12/site-packages (1.1.1)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Note: you may need to restart the kernel to use updated packages.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: psycopg2 in /usr/local/python/3.12.1/lib/python3.12/site-packages (2.9.10)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Note: you may need to restart the kernel to use updated packages.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pymysql</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.naive_bayes</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianNB</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">LabelEncoder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">zscore</span>  <span class="c1"># Import untuk deteksi outlier</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_data_mysql</span><span class="p">():</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">pymysql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+        <span class="n">host</span><span class="o">=</span><span class="s2">&quot;mysql-761e1af-mysqlmysql.d.aivencloud.com&quot;</span><span class="p">,</span>
+        <span class="n">user</span><span class="o">=</span><span class="s2">&quot;avnadmin&quot;</span><span class="p">,</span>
+        <span class="n">password</span><span class="o">=</span><span class="s2">&quot;AVNS_b3-R_nwIM0G13-jogyl&quot;</span><span class="p">,</span>
+        <span class="n">database</span><span class="o">=</span><span class="s2">&quot;defaultdb&quot;</span><span class="p">,</span>
+        <span class="n">port</span><span class="o">=</span><span class="mi">22667</span>
+    <span class="p">)</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM flowers&quot;</span><span class="p">)</span>  <span class="c1"># Ambil semua data dari tabel &#39;flowers&#39;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="c1"># Ubah data ke dalam bentuk NumPy array</span>
+    <span class="n">data_list</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+    <span class="n">data_numpy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data_list</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">data_numpy</span>
+
+<span class="c1"># Ambil data dari MySQL</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">get_data_mysql</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="c1"># Asumsikan kolom terakhir adalah label dan sisanya adalah fitur</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># Semua kolom kecuali yang terakhir sebagai fitur</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>   <span class="c1"># Kolom terakhir sebagai label</span>
+
+<span class="c1"># --- Convert string features to numerical using Label Encoding ---</span>
+<span class="n">label_encoder</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>  <span class="c1"># Iterate through all columns of X</span>
+    <span class="n">X</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">label_encoder</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="c1"># Convert y to numerical if it&#39;s not already</span>
+<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">label_encoder</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># --- End of conversion ---</span>
+
+<span class="c1"># 1. Model Naïve Bayes dengan Data Asli</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">model_original</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span>
+<span class="n">model_original</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred_original</span> <span class="o">=</span> <span class="n">model_original</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">accuracy_original</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_original</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Akurasi Model dengan Outlier: </span><span class="si">{</span><span class="n">accuracy_original</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># 2. Mendeteksi dan Menghapus Outlier dengan Z-Score</span>
+<span class="n">z_scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">zscore</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>  <span class="c1"># Hitung Z-score</span>
+<span class="n">threshold</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1"># Ambang batas untuk mendeteksi outlier</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">z_scores</span> <span class="o">&lt;</span> <span class="n">threshold</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># True jika data tidak outlier</span>
+
+<span class="n">X_clean</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>  <span class="c1"># Simpan data tanpa outlier</span>
+<span class="n">y_clean</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+
+<span class="c1"># 3. Model Naïve Bayes dengan Data Tanpa Outlier</span>
+<span class="n">X_train_clean</span><span class="p">,</span> <span class="n">X_test_clean</span><span class="p">,</span> <span class="n">y_train_clean</span><span class="p">,</span> <span class="n">y_test_clean</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X_clean</span><span class="p">,</span> <span class="n">y_clean</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">model_clean</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span>
+<span class="n">model_clean</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_clean</span><span class="p">,</span> <span class="n">y_train_clean</span><span class="p">)</span>
+<span class="n">y_pred_clean</span> <span class="o">=</span> <span class="n">model_clean</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_clean</span><span class="p">)</span>
+<span class="n">accuracy_clean</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test_clean</span><span class="p">,</span> <span class="n">y_pred_clean</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Akurasi Model Tanpa Outlier: </span><span class="si">{</span><span class="n">accuracy_clean</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># 4. Perbandingan Akurasi</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Perbandingan Akurasi ---&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dengan Outlier  : </span><span class="si">{</span><span class="n">accuracy_original</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tanpa Outlier   : </span><span class="si">{</span><span class="n">accuracy_clean</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[&#39;1&#39; &#39;Iris-setosa&#39; &#39;86.4&#39; &#39;70.0&#39;]
+ [&#39;2&#39; &#39;Iris-setosa&#39; &#39;1.4&#39; &#39;0.2&#39;]
+ [&#39;3&#39; &#39;Iris-setosa&#39; &#39;1.3&#39; &#39;0.2&#39;]
+ [&#39;4&#39; &#39;Iris-setosa&#39; &#39;1.5&#39; &#39;0.2&#39;]
+ [&#39;5&#39; &#39;Iris-setosa&#39; &#39;1.4&#39; &#39;0.2&#39;]
+ [&#39;6&#39; &#39;Iris-setosa&#39; &#39;1.7&#39; &#39;0.4&#39;]
+ [&#39;7&#39; &#39;Iris-setosa&#39; &#39;1.4&#39; &#39;0.3&#39;]
+ [&#39;8&#39; &#39;Iris-setosa&#39; &#39;1.5&#39; &#39;0.2&#39;]
+ [&#39;9&#39; &#39;Iris-setosa&#39; &#39;1.4&#39; &#39;0.2&#39;]
+ [&#39;10&#39; &#39;Iris-setosa&#39; &#39;1.5&#39; &#39;0.1&#39;]
+ [&#39;11&#39; &#39;Iris-setosa&#39; &#39;1.5&#39; &#39;0.2&#39;]
+ [&#39;12&#39; &#39;Iris-setosa&#39; &#39;1.6&#39; &#39;0.2&#39;]
+ [&#39;13&#39; &#39;Iris-setosa&#39; &#39;1.4&#39; &#39;0.1&#39;]
+ [&#39;14&#39; &#39;Iris-setosa&#39; &#39;1.1&#39; &#39;0.1&#39;]
+ [&#39;15&#39; &#39;Iris-setosa&#39; &#39;1.2&#39; &#39;0.2&#39;]
+ [&#39;16&#39; &#39;Iris-setosa&#39; &#39;1.5&#39; &#39;0.4&#39;]
+ [&#39;17&#39; &#39;Iris-setosa&#39; &#39;1.3&#39; &#39;0.4&#39;]
+ [&#39;18&#39; &#39;Iris-setosa&#39; &#39;1.4&#39; &#39;0.3&#39;]
+ [&#39;19&#39; &#39;Iris-setosa&#39; &#39;1.7&#39; &#39;0.3&#39;]
+ [&#39;20&#39; &#39;Iris-setosa&#39; &#39;1.5&#39; &#39;0.3&#39;]
+ [&#39;21&#39; &#39;Iris-setosa&#39; &#39;1.7&#39; &#39;0.2&#39;]
+ [&#39;22&#39; &#39;Iris-setosa&#39; &#39;1.5&#39; &#39;0.4&#39;]
+ [&#39;23&#39; &#39;Iris-setosa&#39; &#39;1.0&#39; &#39;0.2&#39;]
+ [&#39;24&#39; &#39;Iris-setosa&#39; &#39;1.7&#39; &#39;0.5&#39;]
+ [&#39;25&#39; &#39;Iris-setosa&#39; &#39;1.9&#39; &#39;0.2&#39;]
+ [&#39;26&#39; &#39;Iris-setosa&#39; &#39;1.6&#39; &#39;0.2&#39;]
+ [&#39;27&#39; &#39;Iris-setosa&#39; &#39;1.6&#39; &#39;0.4&#39;]
+ [&#39;28&#39; &#39;Iris-setosa&#39; &#39;1.5&#39; &#39;0.2&#39;]
+ [&#39;29&#39; &#39;Iris-setosa&#39; &#39;1.4&#39; &#39;0.2&#39;]
+ [&#39;30&#39; &#39;Iris-setosa&#39; &#39;1.6&#39; &#39;0.2&#39;]
+ [&#39;31&#39; &#39;Iris-setosa&#39; &#39;1.6&#39; &#39;0.2&#39;]
+ [&#39;32&#39; &#39;Iris-setosa&#39; &#39;1.5&#39; &#39;0.4&#39;]
+ [&#39;33&#39; &#39;Iris-setosa&#39; &#39;1.5&#39; &#39;0.1&#39;]
+ [&#39;34&#39; &#39;Iris-setosa&#39; &#39;1.4&#39; &#39;0.2&#39;]
+ [&#39;35&#39; &#39;Iris-setosa&#39; &#39;1.5&#39; &#39;0.1&#39;]
+ [&#39;36&#39; &#39;Iris-setosa&#39; &#39;1.2&#39; &#39;0.2&#39;]
+ [&#39;37&#39; &#39;Iris-setosa&#39; &#39;1.3&#39; &#39;0.2&#39;]
+ [&#39;38&#39; &#39;Iris-setosa&#39; &#39;1.5&#39; &#39;0.1&#39;]
+ [&#39;39&#39; &#39;Iris-setosa&#39; &#39;1.3&#39; &#39;0.2&#39;]
+ [&#39;40&#39; &#39;Iris-setosa&#39; &#39;1.5&#39; &#39;0.2&#39;]
+ [&#39;41&#39; &#39;Iris-setosa&#39; &#39;1.3&#39; &#39;0.3&#39;]
+ [&#39;42&#39; &#39;Iris-setosa&#39; &#39;1.3&#39; &#39;0.3&#39;]
+ [&#39;43&#39; &#39;Iris-setosa&#39; &#39;1.3&#39; &#39;0.2&#39;]
+ [&#39;44&#39; &#39;Iris-setosa&#39; &#39;1.6&#39; &#39;0.6&#39;]
+ [&#39;45&#39; &#39;Iris-setosa&#39; &#39;1.9&#39; &#39;0.4&#39;]
+ [&#39;46&#39; &#39;Iris-setosa&#39; &#39;1.4&#39; &#39;0.3&#39;]
+ [&#39;47&#39; &#39;Iris-setosa&#39; &#39;1.6&#39; &#39;0.2&#39;]
+ [&#39;48&#39; &#39;Iris-setosa&#39; &#39;1.4&#39; &#39;0.2&#39;]
+ [&#39;49&#39; &#39;Iris-setosa&#39; &#39;1.5&#39; &#39;0.2&#39;]
+ [&#39;50&#39; &#39;Iris-setosa&#39; &#39;1.4&#39; &#39;0.2&#39;]
+ [&#39;51&#39; &#39;Iris-versicolor&#39; &#39;4.7&#39; &#39;1.4&#39;]
+ [&#39;52&#39; &#39;Iris-versicolor&#39; &#39;4.5&#39; &#39;1.5&#39;]
+ [&#39;53&#39; &#39;Iris-versicolor&#39; &#39;4.9&#39; &#39;1.5&#39;]
+ [&#39;54&#39; &#39;Iris-versicolor&#39; &#39;4.0&#39; &#39;1.3&#39;]
+ [&#39;55&#39; &#39;Iris-versicolor&#39; &#39;4.6&#39; &#39;1.5&#39;]
+ [&#39;56&#39; &#39;Iris-versicolor&#39; &#39;4.5&#39; &#39;1.3&#39;]
+ [&#39;57&#39; &#39;Iris-versicolor&#39; &#39;4.7&#39; &#39;1.6&#39;]
+ [&#39;58&#39; &#39;Iris-versicolor&#39; &#39;3.3&#39; &#39;1.0&#39;]
+ [&#39;59&#39; &#39;Iris-versicolor&#39; &#39;4.6&#39; &#39;1.3&#39;]
+ [&#39;60&#39; &#39;Iris-versicolor&#39; &#39;3.9&#39; &#39;1.4&#39;]
+ [&#39;61&#39; &#39;Iris-versicolor&#39; &#39;3.5&#39; &#39;1.0&#39;]
+ [&#39;62&#39; &#39;Iris-versicolor&#39; &#39;4.2&#39; &#39;1.5&#39;]
+ [&#39;63&#39; &#39;Iris-versicolor&#39; &#39;4.0&#39; &#39;1.0&#39;]
+ [&#39;64&#39; &#39;Iris-versicolor&#39; &#39;4.7&#39; &#39;1.4&#39;]
+ [&#39;65&#39; &#39;Iris-versicolor&#39; &#39;3.6&#39; &#39;1.3&#39;]
+ [&#39;66&#39; &#39;Iris-versicolor&#39; &#39;4.4&#39; &#39;1.4&#39;]
+ [&#39;67&#39; &#39;Iris-versicolor&#39; &#39;4.5&#39; &#39;1.5&#39;]
+ [&#39;68&#39; &#39;Iris-versicolor&#39; &#39;4.1&#39; &#39;1.0&#39;]
+ [&#39;69&#39; &#39;Iris-versicolor&#39; &#39;4.5&#39; &#39;1.5&#39;]
+ [&#39;70&#39; &#39;Iris-versicolor&#39; &#39;3.9&#39; &#39;1.1&#39;]
+ [&#39;71&#39; &#39;Iris-versicolor&#39; &#39;4.8&#39; &#39;1.8&#39;]
+ [&#39;72&#39; &#39;Iris-versicolor&#39; &#39;4.0&#39; &#39;1.3&#39;]
+ [&#39;73&#39; &#39;Iris-versicolor&#39; &#39;4.9&#39; &#39;1.5&#39;]
+ [&#39;74&#39; &#39;Iris-versicolor&#39; &#39;4.7&#39; &#39;1.2&#39;]
+ [&#39;75&#39; &#39;Iris-versicolor&#39; &#39;4.3&#39; &#39;1.3&#39;]
+ [&#39;76&#39; &#39;Iris-versicolor&#39; &#39;4.4&#39; &#39;1.4&#39;]
+ [&#39;77&#39; &#39;Iris-versicolor&#39; &#39;4.8&#39; &#39;1.4&#39;]
+ [&#39;78&#39; &#39;Iris-versicolor&#39; &#39;5.0&#39; &#39;1.7&#39;]
+ [&#39;79&#39; &#39;Iris-versicolor&#39; &#39;4.5&#39; &#39;1.5&#39;]
+ [&#39;80&#39; &#39;Iris-versicolor&#39; &#39;3.5&#39; &#39;1.0&#39;]
+ [&#39;81&#39; &#39;Iris-versicolor&#39; &#39;3.8&#39; &#39;1.1&#39;]
+ [&#39;82&#39; &#39;Iris-versicolor&#39; &#39;3.7&#39; &#39;1.0&#39;]
+ [&#39;83&#39; &#39;Iris-versicolor&#39; &#39;3.9&#39; &#39;1.2&#39;]
+ [&#39;84&#39; &#39;Iris-versicolor&#39; &#39;5.1&#39; &#39;1.6&#39;]
+ [&#39;85&#39; &#39;Iris-versicolor&#39; &#39;4.5&#39; &#39;1.5&#39;]
+ [&#39;86&#39; &#39;Iris-versicolor&#39; &#39;4.5&#39; &#39;1.6&#39;]
+ [&#39;87&#39; &#39;Iris-versicolor&#39; &#39;4.7&#39; &#39;1.5&#39;]
+ [&#39;88&#39; &#39;Iris-versicolor&#39; &#39;4.4&#39; &#39;1.3&#39;]
+ [&#39;89&#39; &#39;Iris-versicolor&#39; &#39;4.1&#39; &#39;1.3&#39;]
+ [&#39;90&#39; &#39;Iris-versicolor&#39; &#39;4.0&#39; &#39;1.3&#39;]
+ [&#39;91&#39; &#39;Iris-versicolor&#39; &#39;4.4&#39; &#39;1.2&#39;]
+ [&#39;92&#39; &#39;Iris-versicolor&#39; &#39;4.6&#39; &#39;1.4&#39;]
+ [&#39;93&#39; &#39;Iris-versicolor&#39; &#39;4.0&#39; &#39;1.2&#39;]
+ [&#39;94&#39; &#39;Iris-versicolor&#39; &#39;3.3&#39; &#39;1.0&#39;]
+ [&#39;95&#39; &#39;Iris-versicolor&#39; &#39;4.2&#39; &#39;1.3&#39;]
+ [&#39;96&#39; &#39;Iris-versicolor&#39; &#39;4.2&#39; &#39;1.2&#39;]
+ [&#39;97&#39; &#39;Iris-versicolor&#39; &#39;4.2&#39; &#39;1.3&#39;]
+ [&#39;98&#39; &#39;Iris-versicolor&#39; &#39;4.3&#39; &#39;1.3&#39;]
+ [&#39;99&#39; &#39;Iris-versicolor&#39; &#39;3.0&#39; &#39;1.1&#39;]
+ [&#39;100&#39; &#39;Iris-versicolor&#39; &#39;4.1&#39; &#39;1.3&#39;]
+ [&#39;101&#39; &#39;Iris-virginica&#39; &#39;6.0&#39; &#39;2.5&#39;]
+ [&#39;102&#39; &#39;Iris-virginica&#39; &#39;5.1&#39; &#39;1.9&#39;]
+ [&#39;103&#39; &#39;Iris-virginica&#39; &#39;5.9&#39; &#39;2.1&#39;]
+ [&#39;104&#39; &#39;Iris-virginica&#39; &#39;5.6&#39; &#39;1.8&#39;]
+ [&#39;105&#39; &#39;Iris-virginica&#39; &#39;5.8&#39; &#39;2.2&#39;]
+ [&#39;106&#39; &#39;Iris-virginica&#39; &#39;6.6&#39; &#39;2.1&#39;]
+ [&#39;107&#39; &#39;Iris-virginica&#39; &#39;4.5&#39; &#39;1.7&#39;]
+ [&#39;108&#39; &#39;Iris-virginica&#39; &#39;6.3&#39; &#39;1.8&#39;]
+ [&#39;109&#39; &#39;Iris-virginica&#39; &#39;5.8&#39; &#39;1.8&#39;]
+ [&#39;110&#39; &#39;Iris-virginica&#39; &#39;6.1&#39; &#39;2.5&#39;]
+ [&#39;111&#39; &#39;Iris-virginica&#39; &#39;5.1&#39; &#39;2.0&#39;]
+ [&#39;112&#39; &#39;Iris-virginica&#39; &#39;5.3&#39; &#39;1.9&#39;]
+ [&#39;113&#39; &#39;Iris-virginica&#39; &#39;5.5&#39; &#39;2.1&#39;]
+ [&#39;114&#39; &#39;Iris-virginica&#39; &#39;5.0&#39; &#39;2.0&#39;]
+ [&#39;115&#39; &#39;Iris-virginica&#39; &#39;5.1&#39; &#39;2.4&#39;]
+ [&#39;116&#39; &#39;Iris-virginica&#39; &#39;5.3&#39; &#39;2.3&#39;]
+ [&#39;117&#39; &#39;Iris-virginica&#39; &#39;5.5&#39; &#39;1.8&#39;]
+ [&#39;118&#39; &#39;Iris-virginica&#39; &#39;6.7&#39; &#39;2.2&#39;]
+ [&#39;119&#39; &#39;Iris-virginica&#39; &#39;6.9&#39; &#39;2.3&#39;]
+ [&#39;120&#39; &#39;Iris-virginica&#39; &#39;5.0&#39; &#39;1.5&#39;]
+ [&#39;121&#39; &#39;Iris-virginica&#39; &#39;5.7&#39; &#39;2.3&#39;]
+ [&#39;122&#39; &#39;Iris-virginica&#39; &#39;4.9&#39; &#39;2.0&#39;]
+ [&#39;123&#39; &#39;Iris-virginica&#39; &#39;6.7&#39; &#39;2.0&#39;]
+ [&#39;124&#39; &#39;Iris-virginica&#39; &#39;4.9&#39; &#39;1.8&#39;]
+ [&#39;125&#39; &#39;Iris-virginica&#39; &#39;5.7&#39; &#39;2.1&#39;]
+ [&#39;126&#39; &#39;Iris-virginica&#39; &#39;6.0&#39; &#39;1.8&#39;]
+ [&#39;127&#39; &#39;Iris-virginica&#39; &#39;4.8&#39; &#39;1.8&#39;]
+ [&#39;128&#39; &#39;Iris-virginica&#39; &#39;4.9&#39; &#39;1.8&#39;]
+ [&#39;129&#39; &#39;Iris-virginica&#39; &#39;5.6&#39; &#39;2.1&#39;]
+ [&#39;130&#39; &#39;Iris-virginica&#39; &#39;5.8&#39; &#39;1.6&#39;]
+ [&#39;131&#39; &#39;Iris-virginica&#39; &#39;6.1&#39; &#39;1.9&#39;]
+ [&#39;132&#39; &#39;Iris-virginica&#39; &#39;6.4&#39; &#39;2.0&#39;]
+ [&#39;133&#39; &#39;Iris-virginica&#39; &#39;5.6&#39; &#39;2.2&#39;]
+ [&#39;134&#39; &#39;Iris-virginica&#39; &#39;5.1&#39; &#39;1.5&#39;]
+ [&#39;135&#39; &#39;Iris-virginica&#39; &#39;5.6&#39; &#39;1.4&#39;]
+ [&#39;136&#39; &#39;Iris-virginica&#39; &#39;6.1&#39; &#39;2.3&#39;]
+ [&#39;137&#39; &#39;Iris-virginica&#39; &#39;5.6&#39; &#39;2.4&#39;]
+ [&#39;138&#39; &#39;Iris-virginica&#39; &#39;5.5&#39; &#39;1.8&#39;]
+ [&#39;139&#39; &#39;Iris-virginica&#39; &#39;4.8&#39; &#39;1.8&#39;]
+ [&#39;140&#39; &#39;Iris-virginica&#39; &#39;5.4&#39; &#39;2.1&#39;]
+ [&#39;141&#39; &#39;Iris-virginica&#39; &#39;5.6&#39; &#39;2.4&#39;]
+ [&#39;142&#39; &#39;Iris-virginica&#39; &#39;5.1&#39; &#39;2.3&#39;]
+ [&#39;143&#39; &#39;Iris-virginica&#39; &#39;5.1&#39; &#39;1.9&#39;]
+ [&#39;144&#39; &#39;Iris-virginica&#39; &#39;5.9&#39; &#39;2.3&#39;]
+ [&#39;145&#39; &#39;Iris-virginica&#39; &#39;5.7&#39; &#39;2.5&#39;]
+ [&#39;146&#39; &#39;Iris-virginica&#39; &#39;5.2&#39; &#39;2.3&#39;]
+ [&#39;147&#39; &#39;Iris-virginica&#39; &#39;5.0&#39; &#39;1.9&#39;]
+ [&#39;148&#39; &#39;Iris-virginica&#39; &#39;5.2&#39; &#39;2.0&#39;]
+ [&#39;149&#39; &#39;Iris-virginica&#39; &#39;5.4&#39; &#39;2.3&#39;]
+ [&#39;150&#39; &#39;Iris-virginica&#39; &#39;5.1&#39; &#39;1.8&#39;]]
+
+Akurasi Model dengan Outlier: 0.17
+
+Akurasi Model Tanpa Outlier: 0.17
+
+--- Perbandingan Akurasi ---
+Dengan Outlier  : 0.17
+Tanpa Outlier   : 0.17
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">psycopg2</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.naive_bayes</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianNB</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">LabelEncoder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">zscore</span>  <span class="c1"># Import untuk deteksi outlier</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_pg_data</span><span class="p">():</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+        <span class="n">host</span><span class="o">=</span><span class="s2">&quot;pg-23566fa8-poostgree.d.aivencloud.com&quot;</span><span class="p">,</span>
+        <span class="n">user</span><span class="o">=</span><span class="s2">&quot;avnadmin&quot;</span><span class="p">,</span>
+        <span class="n">password</span><span class="o">=</span><span class="s2">&quot;AVNS_PQHHNe5BmPwoXLKHHad&quot;</span><span class="p">,</span>
+        <span class="n">database</span><span class="o">=</span><span class="s2">&quot;defaultdb&quot;</span><span class="p">,</span>
+        <span class="n">port</span><span class="o">=</span><span class="mi">19790</span>
+    <span class="p">)</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM rossi.postgree&quot;</span><span class="p">)</span>  <span class="c1"># Select all records from the table</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>  <span class="c1"># Fetch all rows</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="c1"># Convert to Python list</span>
+    <span class="n">data_list</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+
+    <span class="c1"># Convert to NumPy array</span>
+    <span class="n">data_numpy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data_list</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">data_numpy</span> <span class="c1"># Return the numpy array instead of the list</span>
+
+<span class="c1"># Ambil data dari MySQL</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">get_pg_data</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="c1"># Asumsikan kolom terakhir adalah label dan sisanya adalah fitur</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># Semua kolom kecuali yang terakhir sebagai fitur</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>   <span class="c1"># Kolom terakhir sebagai label</span>
+
+<span class="c1"># --- Convert string features to numerical using Label Encoding ---</span>
+<span class="n">label_encoder</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>  <span class="c1"># Iterate through all columns of X</span>
+    <span class="n">X</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">label_encoder</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="n">i</span><span class="p">])</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="c1"># Convert y to numerical if it&#39;s not already</span>
+<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">label_encoder</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># --- End of conversion ---</span>
+
+<span class="c1"># 1. Model Naïve Bayes dengan Data Asli</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">model_original</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span>
+<span class="n">model_original</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred_original</span> <span class="o">=</span> <span class="n">model_original</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">accuracy_original</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_original</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Akurasi Model dengan Outlier: </span><span class="si">{</span><span class="n">accuracy_original</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># 2. Mendeteksi dan Menghapus Outlier dengan Z-Score</span>
+<span class="n">z_scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">zscore</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>  <span class="c1"># Hitung Z-score</span>
+<span class="n">threshold</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1"># Ambang batas untuk mendeteksi outlier</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">z_scores</span> <span class="o">&lt;</span> <span class="n">threshold</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># True jika data tidak outlier</span>
+
+<span class="n">X_clean</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>  <span class="c1"># Simpan data tanpa outlier</span>
+<span class="n">y_clean</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+
+<span class="c1"># 3. Model Naïve Bayes dengan Data Tanpa Outlier</span>
+<span class="n">X_train_clean</span><span class="p">,</span> <span class="n">X_test_clean</span><span class="p">,</span> <span class="n">y_train_clean</span><span class="p">,</span> <span class="n">y_test_clean</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X_clean</span><span class="p">,</span> <span class="n">y_clean</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">model_clean</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span>
+<span class="n">model_clean</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_clean</span><span class="p">,</span> <span class="n">y_train_clean</span><span class="p">)</span>
+<span class="n">y_pred_clean</span> <span class="o">=</span> <span class="n">model_clean</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_clean</span><span class="p">)</span>
+<span class="n">accuracy_clean</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test_clean</span><span class="p">,</span> <span class="n">y_pred_clean</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Akurasi Model Tanpa Outlier: </span><span class="si">{</span><span class="n">accuracy_clean</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># 4. Perbandingan Akurasi</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Perbandingan Akurasi ---&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dengan Outlier  : </span><span class="si">{</span><span class="n">accuracy_original</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tanpa Outlier   : </span><span class="si">{</span><span class="n">accuracy_clean</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[&#39;2&#39; &#39;Iris-setosa&#39; &#39;4.9&#39; &#39;3.0&#39;]
+ [&#39;3&#39; &#39;Iris-setosa&#39; &#39;4.7&#39; &#39;3.2&#39;]
+ [&#39;4&#39; &#39;Iris-setosa&#39; &#39;4.6&#39; &#39;3.1&#39;]
+ [&#39;5&#39; &#39;Iris-setosa&#39; &#39;5.0&#39; &#39;3.6&#39;]
+ [&#39;6&#39; &#39;Iris-setosa&#39; &#39;5.4&#39; &#39;3.9&#39;]
+ [&#39;7&#39; &#39;Iris-setosa&#39; &#39;4.6&#39; &#39;3.4&#39;]
+ [&#39;8&#39; &#39;Iris-setosa&#39; &#39;5.0&#39; &#39;3.4&#39;]
+ [&#39;9&#39; &#39;Iris-setosa&#39; &#39;4.4&#39; &#39;2.9&#39;]
+ [&#39;10&#39; &#39;Iris-setosa&#39; &#39;4.9&#39; &#39;3.1&#39;]
+ [&#39;11&#39; &#39;Iris-setosa&#39; &#39;5.4&#39; &#39;3.7&#39;]
+ [&#39;12&#39; &#39;Iris-setosa&#39; &#39;4.8&#39; &#39;3.4&#39;]
+ [&#39;13&#39; &#39;Iris-setosa&#39; &#39;4.8&#39; &#39;3.0&#39;]
+ [&#39;14&#39; &#39;Iris-setosa&#39; &#39;4.3&#39; &#39;3.0&#39;]
+ [&#39;15&#39; &#39;Iris-setosa&#39; &#39;5.8&#39; &#39;4.0&#39;]
+ [&#39;16&#39; &#39;Iris-setosa&#39; &#39;5.7&#39; &#39;4.4&#39;]
+ [&#39;17&#39; &#39;Iris-setosa&#39; &#39;5.4&#39; &#39;3.9&#39;]
+ [&#39;18&#39; &#39;Iris-setosa&#39; &#39;5.1&#39; &#39;3.5&#39;]
+ [&#39;19&#39; &#39;Iris-setosa&#39; &#39;5.7&#39; &#39;3.8&#39;]
+ [&#39;20&#39; &#39;Iris-setosa&#39; &#39;5.1&#39; &#39;3.8&#39;]
+ [&#39;21&#39; &#39;Iris-setosa&#39; &#39;5.4&#39; &#39;3.4&#39;]
+ [&#39;22&#39; &#39;Iris-setosa&#39; &#39;5.1&#39; &#39;3.7&#39;]
+ [&#39;23&#39; &#39;Iris-setosa&#39; &#39;4.6&#39; &#39;3.6&#39;]
+ [&#39;24&#39; &#39;Iris-setosa&#39; &#39;5.1&#39; &#39;3.3&#39;]
+ [&#39;25&#39; &#39;Iris-setosa&#39; &#39;4.8&#39; &#39;3.4&#39;]
+ [&#39;26&#39; &#39;Iris-setosa&#39; &#39;5.0&#39; &#39;3.0&#39;]
+ [&#39;27&#39; &#39;Iris-setosa&#39; &#39;5.0&#39; &#39;3.4&#39;]
+ [&#39;28&#39; &#39;Iris-setosa&#39; &#39;5.2&#39; &#39;3.5&#39;]
+ [&#39;29&#39; &#39;Iris-setosa&#39; &#39;5.2&#39; &#39;3.4&#39;]
+ [&#39;30&#39; &#39;Iris-setosa&#39; &#39;4.7&#39; &#39;3.2&#39;]
+ [&#39;31&#39; &#39;Iris-setosa&#39; &#39;4.8&#39; &#39;3.1&#39;]
+ [&#39;32&#39; &#39;Iris-setosa&#39; &#39;5.4&#39; &#39;3.4&#39;]
+ [&#39;33&#39; &#39;Iris-setosa&#39; &#39;5.2&#39; &#39;4.1&#39;]
+ [&#39;34&#39; &#39;Iris-setosa&#39; &#39;5.5&#39; &#39;4.2&#39;]
+ [&#39;35&#39; &#39;Iris-setosa&#39; &#39;4.9&#39; &#39;3.1&#39;]
+ [&#39;36&#39; &#39;Iris-setosa&#39; &#39;5.0&#39; &#39;3.2&#39;]
+ [&#39;37&#39; &#39;Iris-setosa&#39; &#39;5.5&#39; &#39;3.5&#39;]
+ [&#39;38&#39; &#39;Iris-setosa&#39; &#39;4.9&#39; &#39;3.1&#39;]
+ [&#39;39&#39; &#39;Iris-setosa&#39; &#39;4.4&#39; &#39;3.0&#39;]
+ [&#39;40&#39; &#39;Iris-setosa&#39; &#39;5.1&#39; &#39;3.4&#39;]
+ [&#39;41&#39; &#39;Iris-setosa&#39; &#39;5.0&#39; &#39;3.5&#39;]
+ [&#39;42&#39; &#39;Iris-setosa&#39; &#39;4.5&#39; &#39;2.3&#39;]
+ [&#39;43&#39; &#39;Iris-setosa&#39; &#39;4.4&#39; &#39;3.2&#39;]
+ [&#39;44&#39; &#39;Iris-setosa&#39; &#39;5.0&#39; &#39;3.5&#39;]
+ [&#39;45&#39; &#39;Iris-setosa&#39; &#39;5.1&#39; &#39;3.8&#39;]
+ [&#39;46&#39; &#39;Iris-setosa&#39; &#39;4.8&#39; &#39;3.0&#39;]
+ [&#39;47&#39; &#39;Iris-setosa&#39; &#39;5.1&#39; &#39;3.8&#39;]
+ [&#39;48&#39; &#39;Iris-setosa&#39; &#39;4.6&#39; &#39;3.2&#39;]
+ [&#39;49&#39; &#39;Iris-setosa&#39; &#39;5.3&#39; &#39;3.7&#39;]
+ [&#39;50&#39; &#39;Iris-setosa&#39; &#39;5.0&#39; &#39;3.3&#39;]
+ [&#39;51&#39; &#39;Iris-versicolor&#39; &#39;7.0&#39; &#39;3.2&#39;]
+ [&#39;52&#39; &#39;Iris-versicolor&#39; &#39;6.4&#39; &#39;3.2&#39;]
+ [&#39;53&#39; &#39;Iris-versicolor&#39; &#39;6.9&#39; &#39;3.1&#39;]
+ [&#39;54&#39; &#39;Iris-versicolor&#39; &#39;5.5&#39; &#39;2.3&#39;]
+ [&#39;55&#39; &#39;Iris-versicolor&#39; &#39;6.5&#39; &#39;2.8&#39;]
+ [&#39;56&#39; &#39;Iris-versicolor&#39; &#39;5.7&#39; &#39;2.8&#39;]
+ [&#39;57&#39; &#39;Iris-versicolor&#39; &#39;6.3&#39; &#39;3.3&#39;]
+ [&#39;58&#39; &#39;Iris-versicolor&#39; &#39;4.9&#39; &#39;2.4&#39;]
+ [&#39;59&#39; &#39;Iris-versicolor&#39; &#39;6.6&#39; &#39;2.9&#39;]
+ [&#39;60&#39; &#39;Iris-versicolor&#39; &#39;5.2&#39; &#39;2.7&#39;]
+ [&#39;61&#39; &#39;Iris-versicolor&#39; &#39;5.0&#39; &#39;2.0&#39;]
+ [&#39;62&#39; &#39;Iris-versicolor&#39; &#39;5.9&#39; &#39;3.0&#39;]
+ [&#39;63&#39; &#39;Iris-versicolor&#39; &#39;6.0&#39; &#39;2.2&#39;]
+ [&#39;64&#39; &#39;Iris-versicolor&#39; &#39;6.1&#39; &#39;2.9&#39;]
+ [&#39;65&#39; &#39;Iris-versicolor&#39; &#39;5.6&#39; &#39;2.9&#39;]
+ [&#39;66&#39; &#39;Iris-versicolor&#39; &#39;6.7&#39; &#39;3.1&#39;]
+ [&#39;67&#39; &#39;Iris-versicolor&#39; &#39;5.6&#39; &#39;3.0&#39;]
+ [&#39;68&#39; &#39;Iris-versicolor&#39; &#39;5.8&#39; &#39;2.7&#39;]
+ [&#39;69&#39; &#39;Iris-versicolor&#39; &#39;6.2&#39; &#39;2.2&#39;]
+ [&#39;70&#39; &#39;Iris-versicolor&#39; &#39;5.6&#39; &#39;2.5&#39;]
+ [&#39;71&#39; &#39;Iris-versicolor&#39; &#39;5.9&#39; &#39;3.2&#39;]
+ [&#39;72&#39; &#39;Iris-versicolor&#39; &#39;6.1&#39; &#39;2.8&#39;]
+ [&#39;73&#39; &#39;Iris-versicolor&#39; &#39;6.3&#39; &#39;2.5&#39;]
+ [&#39;74&#39; &#39;Iris-versicolor&#39; &#39;6.1&#39; &#39;2.8&#39;]
+ [&#39;75&#39; &#39;Iris-versicolor&#39; &#39;6.4&#39; &#39;2.9&#39;]
+ [&#39;76&#39; &#39;Iris-versicolor&#39; &#39;6.6&#39; &#39;3.0&#39;]
+ [&#39;77&#39; &#39;Iris-versicolor&#39; &#39;6.8&#39; &#39;2.8&#39;]
+ [&#39;78&#39; &#39;Iris-versicolor&#39; &#39;6.7&#39; &#39;3.0&#39;]
+ [&#39;79&#39; &#39;Iris-versicolor&#39; &#39;6.0&#39; &#39;2.9&#39;]
+ [&#39;80&#39; &#39;Iris-versicolor&#39; &#39;5.7&#39; &#39;2.6&#39;]
+ [&#39;81&#39; &#39;Iris-versicolor&#39; &#39;5.5&#39; &#39;2.4&#39;]
+ [&#39;82&#39; &#39;Iris-versicolor&#39; &#39;5.5&#39; &#39;2.4&#39;]
+ [&#39;83&#39; &#39;Iris-versicolor&#39; &#39;5.8&#39; &#39;2.7&#39;]
+ [&#39;84&#39; &#39;Iris-versicolor&#39; &#39;6.0&#39; &#39;2.7&#39;]
+ [&#39;85&#39; &#39;Iris-versicolor&#39; &#39;5.4&#39; &#39;3.0&#39;]
+ [&#39;86&#39; &#39;Iris-versicolor&#39; &#39;6.0&#39; &#39;3.4&#39;]
+ [&#39;87&#39; &#39;Iris-versicolor&#39; &#39;6.7&#39; &#39;3.1&#39;]
+ [&#39;88&#39; &#39;Iris-versicolor&#39; &#39;6.3&#39; &#39;2.3&#39;]
+ [&#39;89&#39; &#39;Iris-versicolor&#39; &#39;5.6&#39; &#39;3.0&#39;]
+ [&#39;90&#39; &#39;Iris-versicolor&#39; &#39;5.5&#39; &#39;2.5&#39;]
+ [&#39;91&#39; &#39;Iris-versicolor&#39; &#39;5.5&#39; &#39;2.6&#39;]
+ [&#39;92&#39; &#39;Iris-versicolor&#39; &#39;6.1&#39; &#39;3.0&#39;]
+ [&#39;93&#39; &#39;Iris-versicolor&#39; &#39;5.8&#39; &#39;2.6&#39;]
+ [&#39;94&#39; &#39;Iris-versicolor&#39; &#39;5.0&#39; &#39;2.3&#39;]
+ [&#39;95&#39; &#39;Iris-versicolor&#39; &#39;5.6&#39; &#39;2.7&#39;]
+ [&#39;96&#39; &#39;Iris-versicolor&#39; &#39;5.7&#39; &#39;3.0&#39;]
+ [&#39;97&#39; &#39;Iris-versicolor&#39; &#39;5.7&#39; &#39;2.9&#39;]
+ [&#39;98&#39; &#39;Iris-versicolor&#39; &#39;6.2&#39; &#39;2.9&#39;]
+ [&#39;99&#39; &#39;Iris-versicolor&#39; &#39;5.1&#39; &#39;2.5&#39;]
+ [&#39;100&#39; &#39;Iris-versicolor&#39; &#39;5.7&#39; &#39;2.8&#39;]
+ [&#39;101&#39; &#39;Iris-virginica&#39; &#39;6.3&#39; &#39;3.3&#39;]
+ [&#39;102&#39; &#39;Iris-virginica&#39; &#39;5.8&#39; &#39;2.7&#39;]
+ [&#39;103&#39; &#39;Iris-virginica&#39; &#39;7.1&#39; &#39;3.0&#39;]
+ [&#39;104&#39; &#39;Iris-virginica&#39; &#39;6.3&#39; &#39;2.9&#39;]
+ [&#39;105&#39; &#39;Iris-virginica&#39; &#39;6.5&#39; &#39;3.0&#39;]
+ [&#39;106&#39; &#39;Iris-virginica&#39; &#39;7.6&#39; &#39;3.0&#39;]
+ [&#39;107&#39; &#39;Iris-virginica&#39; &#39;4.9&#39; &#39;2.5&#39;]
+ [&#39;108&#39; &#39;Iris-virginica&#39; &#39;7.3&#39; &#39;2.9&#39;]
+ [&#39;109&#39; &#39;Iris-virginica&#39; &#39;6.7&#39; &#39;2.5&#39;]
+ [&#39;110&#39; &#39;Iris-virginica&#39; &#39;7.2&#39; &#39;3.6&#39;]
+ [&#39;111&#39; &#39;Iris-virginica&#39; &#39;6.5&#39; &#39;3.2&#39;]
+ [&#39;112&#39; &#39;Iris-virginica&#39; &#39;6.4&#39; &#39;2.7&#39;]
+ [&#39;113&#39; &#39;Iris-virginica&#39; &#39;6.8&#39; &#39;3.0&#39;]
+ [&#39;114&#39; &#39;Iris-virginica&#39; &#39;5.7&#39; &#39;2.5&#39;]
+ [&#39;115&#39; &#39;Iris-virginica&#39; &#39;5.8&#39; &#39;2.8&#39;]
+ [&#39;116&#39; &#39;Iris-virginica&#39; &#39;6.4&#39; &#39;3.2&#39;]
+ [&#39;117&#39; &#39;Iris-virginica&#39; &#39;6.5&#39; &#39;3.0&#39;]
+ [&#39;118&#39; &#39;Iris-virginica&#39; &#39;7.7&#39; &#39;3.8&#39;]
+ [&#39;119&#39; &#39;Iris-virginica&#39; &#39;7.7&#39; &#39;2.6&#39;]
+ [&#39;120&#39; &#39;Iris-virginica&#39; &#39;6.0&#39; &#39;2.2&#39;]
+ [&#39;121&#39; &#39;Iris-virginica&#39; &#39;6.9&#39; &#39;3.2&#39;]
+ [&#39;122&#39; &#39;Iris-virginica&#39; &#39;5.6&#39; &#39;2.8&#39;]
+ [&#39;123&#39; &#39;Iris-virginica&#39; &#39;7.7&#39; &#39;2.8&#39;]
+ [&#39;124&#39; &#39;Iris-virginica&#39; &#39;6.3&#39; &#39;2.7&#39;]
+ [&#39;125&#39; &#39;Iris-virginica&#39; &#39;6.7&#39; &#39;3.3&#39;]
+ [&#39;126&#39; &#39;Iris-virginica&#39; &#39;7.2&#39; &#39;3.2&#39;]
+ [&#39;127&#39; &#39;Iris-virginica&#39; &#39;6.2&#39; &#39;2.8&#39;]
+ [&#39;128&#39; &#39;Iris-virginica&#39; &#39;6.1&#39; &#39;3.0&#39;]
+ [&#39;129&#39; &#39;Iris-virginica&#39; &#39;6.4&#39; &#39;2.8&#39;]
+ [&#39;130&#39; &#39;Iris-virginica&#39; &#39;7.2&#39; &#39;3.0&#39;]
+ [&#39;131&#39; &#39;Iris-virginica&#39; &#39;7.4&#39; &#39;2.8&#39;]
+ [&#39;132&#39; &#39;Iris-virginica&#39; &#39;7.9&#39; &#39;3.8&#39;]
+ [&#39;133&#39; &#39;Iris-virginica&#39; &#39;6.4&#39; &#39;2.8&#39;]
+ [&#39;134&#39; &#39;Iris-virginica&#39; &#39;6.3&#39; &#39;2.8&#39;]
+ [&#39;135&#39; &#39;Iris-virginica&#39; &#39;6.1&#39; &#39;2.6&#39;]
+ [&#39;136&#39; &#39;Iris-virginica&#39; &#39;7.7&#39; &#39;3.0&#39;]
+ [&#39;137&#39; &#39;Iris-virginica&#39; &#39;6.3&#39; &#39;3.4&#39;]
+ [&#39;138&#39; &#39;Iris-virginica&#39; &#39;6.4&#39; &#39;3.1&#39;]
+ [&#39;139&#39; &#39;Iris-virginica&#39; &#39;6.0&#39; &#39;3.0&#39;]
+ [&#39;140&#39; &#39;Iris-virginica&#39; &#39;6.9&#39; &#39;3.1&#39;]
+ [&#39;141&#39; &#39;Iris-virginica&#39; &#39;6.7&#39; &#39;3.1&#39;]
+ [&#39;142&#39; &#39;Iris-virginica&#39; &#39;6.9&#39; &#39;3.1&#39;]
+ [&#39;143&#39; &#39;Iris-virginica&#39; &#39;5.8&#39; &#39;2.7&#39;]
+ [&#39;144&#39; &#39;Iris-virginica&#39; &#39;6.8&#39; &#39;3.2&#39;]
+ [&#39;145&#39; &#39;Iris-virginica&#39; &#39;6.7&#39; &#39;3.3&#39;]
+ [&#39;146&#39; &#39;Iris-virginica&#39; &#39;6.7&#39; &#39;3.0&#39;]
+ [&#39;147&#39; &#39;Iris-virginica&#39; &#39;6.3&#39; &#39;2.5&#39;]
+ [&#39;148&#39; &#39;Iris-virginica&#39; &#39;6.5&#39; &#39;3.0&#39;]
+ [&#39;149&#39; &#39;Iris-virginica&#39; &#39;6.2&#39; &#39;3.4&#39;]
+ [&#39;150&#39; &#39;Iris-virginica&#39; &#39;5.9&#39; &#39;3.0&#39;]
+ [&#39;1&#39; &#39;Iris-setosa&#39; &#39;20.1&#39; &#39;30.5&#39;]]
+
+Akurasi Model dengan Outlier: 0.17
+
+Akurasi Model Tanpa Outlier: 0.17
+
+--- Perbandingan Akurasi ---
+Dengan Outlier  : 0.17
+Tanpa Outlier   : 0.17
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="pendat3.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Materi Local Outlier Factor(LOF)</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kegunaan-naive-bayes">Kegunaan Naïve Bayes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kelebihan-naive-bayes">Kelebihan Naïve Bayes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kekurangan-naive-bayes">Kekurangan Naïve Bayes</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Muhammad Rossi - 230411100033
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
